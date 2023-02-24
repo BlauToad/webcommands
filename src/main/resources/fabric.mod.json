@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "webservercommands",
+  "version": "${version}",
+  "name": "Webservercommands",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/webservercommands/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "de.blautoad.webservercommands.client.WebservercommandsClient"
+    ],
+    "main": [
+      "de.blautoad.webservercommands.Webservercommands"
+    ]
+  },
+  "mixins": [
+    "webservercommands.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.11",
+    "fabric": "*",
+    "minecraft": "1.19.3"
+  }
+}
