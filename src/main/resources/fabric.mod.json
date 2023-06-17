@@ -1,28 +1,27 @@
 {
   "schemaVersion": 1,
-  "id": "webservercommands",
+  "id": "webcommands",
   "version": "${version}",
-  "name": "Webservercommands",
+  "name": "webcommands",
   "description": "",
   "authors": [],
-  "contact": {},
+  "contact": {
+    "repo": "https://github.com/Simon/webcommands"
+  },
   "license": "All-Rights-Reserved",
-  "icon": "assets/webservercommands/icon.png",
-  "environment": "*",
+  "icon": "assets/webcommands/icon.png",
+  "environment": "client",
   "entrypoints": {
     "client": [
-      "de.blautoad.webservercommands.client.WebservercommandsClient"
-    ],
-    "main": [
-      "de.blautoad.webservercommands.Webservercommands"
+      "de.blautoad.webcommands.WebcommandsClient"
     ]
   },
   "mixins": [
-    "webservercommands.mixins.json"
+    "webcommands.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.11",
+    "fabricloader": ">=${loader_version}",
     "fabric": "*",
-    "minecraft": "1.19.3"
+    "minecraft": "${minecraft_version}"
   }
 }
