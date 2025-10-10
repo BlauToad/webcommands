@@ -2,11 +2,11 @@
   "required": true,
   "minVersion": "0.8",
   "package": "de.blautoad.webcommands_mixins",
-  "compatibilityLevel": "JAVA_17",
-  "mixins": [],
+  "compatibilityLevel": "JAVA_21",
   "client": [
     "GameMenuScreenMixin",
-    "GameMenuScreenMixin$ScreenAccessor"
+    "GameMenuScreenMixin$ScreenAccessor",
+    "ChatMessageListenerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

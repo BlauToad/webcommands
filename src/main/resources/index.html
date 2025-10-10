@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset='utf-8'>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>Webcommands MC</title>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<script type="module" src='https://blautoad.github.io/bundle.js'></script>
+	<style>
+		*:not(#editor-container *) {
+			font-family: sans-serif;
+		}
+
+		html,
+		body {
+			margin: 0;
+			padding: 0;
+		}
+
+		button {
+			width: 100%;
+			font-size: large;
+		}
+
+		#result {
+			padding-right: 5px;
+			padding-left: 5px;
+			background-color: #0004;
+		}
+	</style>
+</head>
+
+<body>
+	<input id="uri" type="hidden" value="file:///root/foo.mcfunction" disabled>
+	<!-- <br> -->
+
+	<!-- <label for="language">Language:</label>
+	<select id="language">
+		<option value="json">json</option>
+		<option value="mcfunction" selected>mcfunction</option>
+		<option value="mcdoc">mcdoc</option>
+		<option data-language="nbt" value="snbt">snbt</option>
+	</select><br> -->
+
+	<!-- <label for="text">Text content (press Escape followed by Tab to change focus instead of indent):</label><br> -->
+	<span>You can use all MC commands or utilize special commands for chat messages (&chat <b>message</b>) or timeouts (&timeout <b>100ms</b>) or set a delay for all commands (&setdelay <b>500ms</b>). NOTE: The "ms" is optional, the duration is always specified in milliseconds.<br><br>To retrieve the result of a command, please enter only <b>one</b> command.<br><br>Right-click and copy the link, then send a <b>GET</b> request to execute the commands or retrieve the result if only one command is specified.</span><br><br>
+
+	<div id="editor-container" style="width:100vw;height:max-content;max-height: 69vh;overflow:auto;"></div>
+	<!-- <br> -->
+	<button type="button" id="run"></button>	<br>
+	<span id="result"></span><br>
+	<a href="." id="get_l"></a>
+
+	<p>Powered by <a href="https://codemirror.net/6/">CodeMirror</a> and <a
+			href="https://github.com/SpyglassMC/Spyglass/tree/main/packages/playground">@spyglassmc/playground</a>.</p>
+
+
+
+	<script type="module" defer>
+		const o = window.location.port == 299 ? "http://localhost" : window.location.origin;
+		import { getCommands } from 'https://blautoad.github.io/bundle.js';
+
+		const _button = document.getElementById("run");
+		const _get_l = document.getElementById("get_l");
+		const _result = document.getElementById("result");
+
+		_get_l.addEventListener("click", (event) => {
+			event.preventDefault();
+			return false;
+		});
+
+		_button.addEventListener("click", () => {
+			_button.style.backgroundColor = "";
+			_button.disabled = true;
+			let variable = getCommands()
+			console.log(variable);
+			let v_1 = JSON.stringify(variable);
+			let v_2 = encodeURI(v_1);
+
+			if (getCommands().length == 1 && !getCommands()[0].startsWith("&")) {
+				fetch(getLink(), {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				})
+					.then(response => response.json())
+					.then(data => {
+						console.log(data);
+						_button.disabled = false;
+						_button.style.backgroundColor = "#0f0";
+						_result.innerHTML = "<b>Command Result: </b>" + data.commandResultText;
+					})
+					.catch(error => {
+						console.error(error);
+						_button.disabled = false;
+						_button.style.backgroundColor = "#f00";
+					});
+			} else {
+				fetch(o, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: v_2
+				})
+					.then(response => response.json())
+					.then(data => {
+						console.log(data);
+						_button.disabled = false;
+						_button.style.backgroundColor = "#0f0";
+					})
+					.catch(error => {
+						console.error(error);
+						_button.disabled = false;
+						_button.style.backgroundColor = "#f00";
+					});
+			}
+		});
+
+		setInterval(() => {
+			if (getCommands().length == 1 && !getCommands()[0].startsWith("&")) {
+				_get_l.href = getLink();
+				_get_l.innerHTML = "[Right Click] + [Copy Link] Execute command and get the result";
+				_button.innerHTML = "Run and get Result"
+			} else {
+				var val = o + "/post?" + encodeURI(JSON.stringify(getCommands()).replaceAll("#", "\\\\$%"));
+				_get_l.href = val;
+				_get_l.innerHTML = "[Right Click] + [Copy Link] Execute all commands";
+				_button.innerHTML = "Run all commands"
+			}
+		}, 200);
+
+		function getLink() {
+			return o + "/get?" + encodeURI(JSON.stringify("/" + getCommands()[0]).replaceAll("#", "\\\\$%"));
+		}
+	</script>
+</body>
+
+</html>

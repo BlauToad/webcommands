@@ -6,10 +6,10 @@
   "description": "",
   "authors": [],
   "contact": {
-    "repo": "https://github.com/Simon/webcommands"
+    "repo": "https://github.com/BlauToad/webcommands"
   },
   "license": "All-Rights-Reserved",
-  "icon": "assets/webcommands/icon.png",
+  "icon": "icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [
@@ -22,6 +22,6 @@
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
-    "minecraft": "${minecraft_version}"
+    "minecraft": ">=1.21.6"
   }
 }

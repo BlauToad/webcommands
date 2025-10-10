@@ -1,0 +1,11 @@
+{
+  "webcommands.change_port.success": "OK!",
+  "webcommands.change_port.occupied": "Used by another application!",
+  "webcommands.change_port.out_of_range": "Port must be between 1 and 65535!",
+  "webcommands.change_port.current_port": "Current port",
+  "webcommands.change_port.invalid_input": "Invalid input!",
+  "webcommands.change_port.change_port": "Change Port",
+  "webcommands.change_port.open_web_panel": "Open Webinterface",
+  "webcommands.change_port.temp_free_port": "Temp port!",
+  "webcommands.change_port.using_fallbackport": "Fallback port!"
+}
