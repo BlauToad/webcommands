@@ -2,8 +2,7 @@ package de.blautoad.webcommands;
 
 import com.google.gson.Gson;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
-
+import net.minecraft.client.Minecraft;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -144,14 +143,14 @@ public class Listener {
         e = e.replace("\\\\$%", "#");
 
 
-        if (MinecraftClient.getInstance().player != null) {
+        if (Minecraft.getInstance().player != null) {
             try {
                 String t = new Gson().fromJson(e, String.class);
                 //filter empty messages:
                 if (t != null && !Objects.equals(t, "")) {
                     if (t.startsWith("/")) {
                         // Executing the Command:
-                        MinecraftClient.getInstance().player.networkHandler.sendChatCommand(t.substring(1));
+                        Minecraft.getInstance().player.connection.sendCommand(t.substring(1));
 
                         Result r = ResultManager.waitForResult_ObjFilter(t.split(" ")[0].substring(1), 5, TimeUnit.SECONDS);
 
@@ -159,7 +158,7 @@ public class Listener {
                         response = new Gson().toJson(r);
                     } else {
                         // Sending the Message in the Chat:
-                        MinecraftClient.getInstance().player.networkHandler.sendChatMessage(t);
+                        Minecraft.getInstance().player.connection.sendChat(t);
 
                     }
                 }
@@ -212,7 +211,7 @@ public class Listener {
         boolean comments = false;
 
 
-        if (MinecraftClient.getInstance().player != null) {
+        if (Minecraft.getInstance().player != null) {
             try {
                 String[] tasks = new Gson().fromJson(e, String[].class);
                 if (tasks != null) {
@@ -246,12 +245,12 @@ public class Listener {
 
                             if (t.startsWith("/")) {
                                 // Executing the Command:
-                                MinecraftClient.getInstance().player.networkHandler.sendChatCommand(t.substring(1));
+                                Minecraft.getInstance().player.connection.sendCommand(t.substring(1));
 
                             } else {
                                 if (!(comments && t.startsWith("#"))) {
                                     // Sending the Message in the Chat:
-                                    MinecraftClient.getInstance().player.networkHandler.sendChatMessage(t);
+                                    Minecraft.getInstance().player.connection.sendChat(t);
                                 }
                             }
                         }
@@ -299,7 +298,7 @@ public class Listener {
 
         int delay = 0;
 
-        if (MinecraftClient.getInstance().player != null) {
+        if (Minecraft.getInstance().player != null) {
             try {
                 String[] tasks = new Gson().fromJson(e, String[].class);
                 if (tasks != null) {
@@ -339,12 +338,12 @@ public class Listener {
 
                             if (t.startsWith("/&chat")) {
                                 // Sending the Message in the Chat:
-                                MinecraftClient.getInstance().player.networkHandler.sendChatMessage(t.substring(7));
+                                Minecraft.getInstance().player.connection.sendChat(t.substring(7));
 
                             } else {
                                 if (!t.startsWith("#")) {
                                     // Executing the Command:
-                                    MinecraftClient.getInstance().player.networkHandler.sendChatCommand(t.substring(1));
+                                    Minecraft.getInstance().player.connection.sendCommand(t.substring(1));
                                 }
 
                             }
@@ -389,7 +388,7 @@ public class Listener {
 
         int delay = 0;
 
-        if (MinecraftClient.getInstance().player != null) {
+        if (Minecraft.getInstance().player != null) {
             try {
                 if (tasks != null) {
                     for (String t1 : tasks) {
@@ -428,12 +427,12 @@ public class Listener {
 
                             if (t.startsWith("/&chat")) {
                                 // Sending the Message in the Chat:
-                                MinecraftClient.getInstance().player.networkHandler.sendChatMessage(t.substring(7));
+                                Minecraft.getInstance().player.connection.sendChat(t.substring(7));
 
                             } else {
                                 if (!t.startsWith("#")) {
                                     // Executing the Command:
-                                    MinecraftClient.getInstance().player.networkHandler.sendChatCommand(t.substring(1));
+                                    Minecraft.getInstance().player.connection.sendCommand(t.substring(1));
                                 }
 
                             }
